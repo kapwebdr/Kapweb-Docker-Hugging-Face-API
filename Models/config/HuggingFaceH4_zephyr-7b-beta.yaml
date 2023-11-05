@@ -1,0 +1,15 @@
+requirements:
+  - transformers
+  - fastapi
+  - uvicorn
+  - six
+  - pyyaml
+  - python-dotenv
+  - torch 
+  - accelerate
+ports:
+  - 8004:8000
+endpoint:
+  - chat
+environment:
+  - model=HuggingFaceH4/zephyr-7b-beta

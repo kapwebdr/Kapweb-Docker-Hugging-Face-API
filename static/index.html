@@ -92,30 +92,14 @@
         }
 
         function startContainer(containerId) {
-            fetch(`/api/containers/${containerId}/start`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Failed to start container');
-                }
-            })
-            .then(data => {
-                console.log('Container started:', data);
-                fetchContainers(); // Refresh the list
-            })
-            .catch(error => console.error('Error starting container:', error));
+            $.post(`/api/containers/${containerId}/start`, function(data) {
+                fetchContainers(); 
+            });
         }
 
         function stopContainer(containerId) {
             $.post(`/api/containers/${containerId}/stop`, function(data) {
-                console.log(data); // You may want to update the UI with this data
-                fetchContainers(); // Refresh the list
+                fetchContainers(); 
             });
         }
 
@@ -135,7 +119,6 @@
                     }
                 })
                 .then(data => {
-                    console.log('Container deleted:', data);
                     fetchContainers();
                 })
                 .catch(error => console.error('Error deleting container:', error));

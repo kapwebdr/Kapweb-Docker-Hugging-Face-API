@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="container mt-5">
+        <h1>Chat <div id="wait" class="spinner-border" role="status" style="visibility:hidden">
+            <span class="sr-only"></span>
+        </div></h1>
+        <div class="mb-3">
+            <label for="text" class="form-label">System :</label>
+            <textarea style="height:100%;" id="system_text" rows="10" class="form-control"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="text" class="form-label">User:</label>
+            <textarea style="height:100%;" id="text" rows="10" class="form-control"></textarea>
+            <button id="translate" class="btn btn-primary mt-2">Chat</button>
+        </div>
+        <div id="result" class="text-bg-dark p-3">
+        </div>
+    </div>    
+</div>
+<script>
+    $(document).ready(function() {
+        document.getElementById('translate').addEventListener('click', function() {
+            const text_from = document.getElementById('text').value;
+            const text_system = document.getElementById('system_text').value;
+            document.getElementById('wait').style.visibility='visible';
+            fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text: text_from, system_text: text_system   }),
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Failed');
+                }
+            })
+            .then(data => {
+                document.getElementById('wait').style.visibility='hidden';
+                document.getElementById('result').innerHTML = data.result;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+        
+    });
+</script>
+</body>
+</html>

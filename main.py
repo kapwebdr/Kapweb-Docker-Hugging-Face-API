@@ -45,10 +45,11 @@ async def list_containers():
     kwb_containers = [container for container in all_containers if container.name.startswith('kwb_')]
     return [{'id': container.id, 'name': container.name, 'status': container.status} for container in kwb_containers]
     
-@api_router.post("/containers/{model}/start")  # This decorator was missing
+@api_router.post("/containers/{container_id}/start")
 async def start_container(container_id: str):
     try:
-        container = client.containers.run(container_id, detach=True)
+        container = client.containers.get(container_id)
+        container.start()
         return {"status": "started", "container_id": container.id}
     except docker.errors.DockerException as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -103,7 +104,6 @@ async def create_container(model: str = Body(..., embed=True)):
             network=base_config.get('network', 'default'),
             detach=True
         )
-        # Connecter au réseau si nécessaire
         if base.get('network', 'default') != 'default':
             network = client.networks.get(base['network'])
             network.connect(container)

@@ -11,6 +11,9 @@ HOST_PATH=/Volumes/CloudDatas/SynologyDrive/Docker/KwbHug/Kapweb-Docker-Hugging-
 ```
 
 ## Démarrage et Accès
+```python
+docker compose up -d
+```
 Le projet est configuré pour s'exécuter localement à l'adresse suivante : http://localhost:8000.
 
 ## Modèles Disponibles

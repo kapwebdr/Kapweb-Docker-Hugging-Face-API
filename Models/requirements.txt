@@ -5,7 +5,4 @@ six
 pyyaml
 python-dotenv
 torch
-torchvision
-torchaudio
-sentencepiece
-sacremoses
+accelerate
