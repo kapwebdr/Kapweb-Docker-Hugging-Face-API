@@ -7,7 +7,7 @@ Ce projet offre un outil simple et efficace pour tester et déployer des modèle
 Pour utiliser ce projet, un fichier `.env` doit être présent à la racine du projet, spécifiant le chemin absolu vers le dossier du projet. Par exemple :
 
 ```python
-HOST_PATH=/Volumes/CloudDatas/SynologyDrive/Docker/KwbHug/App/
+HOST_PATH=/Volumes/CloudDatas/SynologyDrive/Docker/KwbHug/Kapweb-Docker-Hugging-Face-API/
 ```
 
 ## Démarrage et Accès

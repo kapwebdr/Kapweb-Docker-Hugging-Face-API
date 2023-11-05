@@ -41,7 +41,6 @@ api_router = APIRouter()
 
 @api_router.get("/containers/")
 async def list_containers():
-    containers = client.containers.list(all=True)
     all_containers = client.containers.list(all=True)  # `all=True` permet de lister aussi les conteneurs arrêtés
     kwb_containers = [container for container in all_containers if container.name.startswith('kwb_')]
     return [{'id': container.id, 'name': container.name, 'status': container.status} for container in kwb_containers]
