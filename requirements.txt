@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+six
+pyyaml
+python-dotenv
+docker

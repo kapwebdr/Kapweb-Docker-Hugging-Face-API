@@ -1,0 +1,11 @@
+transformers
+fastapi
+uvicorn
+six
+pyyaml
+python-dotenv
+torch
+torchvision
+torchaudio
+sentencepiece
+sacremoses

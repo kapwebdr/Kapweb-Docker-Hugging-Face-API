@@ -1,0 +1,18 @@
+requirements:
+  - transformers
+  - fastapi
+  - uvicorn
+  - six
+  - pyyaml
+  - python-dotenv
+  - torch 
+  - torchvision 
+  - torchaudio
+  - sentencepiece
+  - sacremoses
+ports:
+  - 8003:8000
+endpoint:
+  - translate
+environment:
+  - model=Helsinki-NLP/opus-mt-fr-en
