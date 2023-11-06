@@ -78,12 +78,15 @@
                         containerListHTML += `
                             <tr>
                                 <td>${container.name}</td>
-                                <td><span class="badge ${statusBadgeClass}">${container.status}</span></td>
+                                <td><span class="badge ${statusBadgeClass}">${container.status}</span> <a href="http://localhost:${container.network}" target="_blank">${container.network}</a></td>
                                 <td>
                                     <button class="btn btn-primary btn-sm" onclick="startContainer('${container.id}')">Démarrer</button>
                                     <button class="btn btn-warning btn-sm" onclick="stopContainer('${container.id}')">Arrêter</button>
                                     <button class="btn btn-danger btn-sm" onclick="deleteContainer('${container.id}')">Supprimer</button>
                                 </td>
+                            </tr>
+                            <tr  id="logs_${container.id}">
+                                <td colspan="3"><div style="height:80px;overflow: scroll;">${container.logs.replace(/\n/g, '<br>')}</div></td>
                             </tr>
                         `;
                     });
@@ -101,6 +104,12 @@
             $.post(`/api/containers/${containerId}/stop`, function(data) {
                 fetchContainers(); 
             });
+        }
+
+        function logsToggle(containerId)
+        {
+            //fetchContainers();
+            document.getElementById('logs_'+containerId).style.visibility='visible';
         }
 
         function deleteContainer(containerId) {
@@ -128,9 +137,11 @@
         window.startContainer = startContainer;
         window.stopContainer = stopContainer;
         window.deleteContainer = deleteContainer;
+        window.logsToggle = logsToggle;
         
         fetchContainers();
         fetchModels();
+        setInterval(fetchContainers, 3000);
     });
 </script>
 </body>
