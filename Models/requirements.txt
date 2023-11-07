@@ -1,4 +1,4 @@
-transformers
+git+https://github.com/huggingface/transformers.git
 fastapi
 uvicorn
 six

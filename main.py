@@ -41,10 +41,28 @@ api_router = APIRouter()
 
 @api_router.get("/containers/")
 async def list_containers():
-    all_containers = client.containers.list(all=True)  # `all=True` permet de lister aussi les conteneurs arrêtés
-    kwb_containers = [container for container in all_containers if container.name.startswith('kwb_')]
-    return [{'id': container.id, 'name': container.name, 'status': container.status} for container in kwb_containers]
-    
+    all_containers = client.containers.list(all=True) 
+    kwb_containers= []
+    for container in all_containers:
+         if container.name.startswith('kwb_'):
+            network_data = "" 
+            if container.status == 'running': 
+                network_data = client.api.inspect_container(container.id)['NetworkSettings']['Ports']["8000/tcp"][0]["HostPort"]
+            reversed_logs = ""
+            if container.status == 'running':
+                logs = container.logs(tail=50).decode('utf-8')  # Assuming you want the logs as a string
+                log_lines = logs.split('\n')
+                log_lines.reverse()
+                reversed_logs = '\n'.join(log_lines)
+            kwb_containers.append({
+                'id': container.id,
+                'name': container.name,
+                'status': container.status,
+                'network': network_data,
+                'logs': reversed_logs
+            })
+    return kwb_containers
+
 @api_router.post("/containers/{container_id}/start")
 async def start_container(container_id: str):
     try:
@@ -79,7 +97,6 @@ async def delete_container(container_id: str):
 @api_router.get("/models/")
 async def list_models() -> List[str]:
     config_path = 'Models/config/'
-    # Liste tous les fichiers qui se terminent par .yaml dans le dossier config
     models = [f for f in os.listdir(config_path) if os.path.isfile(os.path.join(config_path, f)) and f.endswith('.yaml')]
     return models
 

@@ -33,7 +33,6 @@ def chat(text,system_text):
     {"role": "system","content": system_text},
     {"role": "user", "content": text},
     ]
-    #"You are a friendly chatbot who always responds in the style of a pirate in french"
     prompt = pipe.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
     outputs = pipe(prompt, max_new_tokens=256, do_sample=True, temperature=0.7, top_k=50, top_p=0.95)
     return outputs[0]["generated_text"]
@@ -52,4 +51,8 @@ for endpoint in model_config['endpoint']:
         endpoint_www_function = globals()[f'{endpoint}_www']
         app.add_api_route(f'/{endpoint}', endpoint_www_function, methods=["GET"])
         app.add_api_route(f'/{endpoint}', endpoint_api_function, methods=["POST"])
-    
+
+@app.get("/")
+async def root():
+    return model_config['endpoint']
+   

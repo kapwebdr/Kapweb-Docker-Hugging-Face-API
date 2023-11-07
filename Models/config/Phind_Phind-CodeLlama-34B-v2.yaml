@@ -8,8 +8,8 @@ requirements:
   - torch 
   - accelerate
 ports:
-  - 8004:8000
+  - 8005:8000
 endpoint:
   - chat
 environment:
-  - model=HuggingFaceH4/zephyr-7b-beta
+  - model=Phind/Phind-CodeLlama-34B-v2
